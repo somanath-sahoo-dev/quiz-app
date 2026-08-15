@@ -153,6 +153,7 @@ restart.addEventListener("click", function() {
     currentQues = 1;
     selectedAns = "";
     score = 0;
+    h3.innerText = `Score ${score}`;
     getQues();
 })
 
