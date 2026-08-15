@@ -123,7 +123,7 @@ function checkAns() {
             alert("Please select an option first.");
         return;
         }
-        if(selectedAns == quiz[currentQues-1].answer) {
+        if(selectedAns === quiz[currentQues-1].answer) {
         score++;
         } else {
         score--;
