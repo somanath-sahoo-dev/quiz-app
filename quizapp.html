@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App</title>
+    <style>
+        body {
+            text-align: center;
+            background-color: lightblue;
+        }
+        button {
+            border-radius: 7px;
+        }
+        .question-box {
+            border: 2px solid black;
+            border-radius: 10px;
+            height: 500px;
+            width: 700px;
+            display: none;
+            margin: 0 auto;
+        }
+        .submit {
+            background-color:#8888E7;
+        }
+        .restart {
+            width: 100px;
+            background-color: #DFFF00;
+        }
+    </style>
+</head>
+<body>
+    <h1>Quiz App</h1>
+    <h3></h3>
+    <button class="start">Start Quiz</button>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="question-box">
+        <p class="ques"></p>
+        <button class="A option"></button>
+        <br>
+        <br>
+        <button class="B option"></button>
+        <br>
+        <br>
+        <button class="C option"></button> 
+        <br>
+        <br>       
+        <button class="D option"></button>
+        <br>
+        <br>
+        <br>
+        <button type="submit" class="submit">Submit</button>
+        <br>
+        <br>
+        <button class="restart">Restart</button>
+    </div>
+    <script src="quiz.js"></script>
+</body>
+</html>
