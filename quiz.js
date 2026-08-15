@@ -140,7 +140,7 @@ function endQuiz() {
     }
      else {
         h1.innerText = "Quiz has finished."
-        h3.innerText = `Final Score is ${score}/15`;
+        h3.innerText = `Final Score is ${score}/${quiz.length}`;
         div.style.display = "none";
     }
 }
