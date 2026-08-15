@@ -1,9 +1,26 @@
-# quiz-app
-A quiz app with JS Basics - DOM, CSS Basics, and a simple HTML Code
+# Quiz App
 
-# Features
+A simple multiple-choice quiz application built with HTML, CSS and JavaScript.
 
-1. Multiple Choice Questions
-2. Positive and Negative Score tracking
-3. Restart and Submit Button
-4. Basic UI
+## Features
+
+- Multiple-choice questions
+- Positive/negative scoring
+- Question navigation
+- Restart functionality
+- Score tracking
+
+## Technologies
+
+- HTML
+- CSS
+- JavaScript
+
+## What I Learned
+
+- DOM manipulation
+- Event listeners
+- Arrays and objects
+- Functions
+- Conditional logic
+- Managing application state
