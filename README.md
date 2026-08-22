@@ -6,12 +6,11 @@ A simple multiple-choice quiz application built with HTML, CSS and JavaScript.
 
 - Multiple-choice questions
 - Positive/negative scoring
-- Question navigation
 - Restart functionality
 - Score tracking
 - Random order of questions
 - Randomized order of options to each question
-- Per-Question Timer of 15 seconds
+- 15-second Timer for each question
 
 ## Technologies
 
@@ -25,7 +24,7 @@ The quiz stores questions and their options in a JavaScript array of objects.
 
 Questions are selected randomly, and the answer options are shuffled before being displayed.
 
-The user's selected answer is compared with the correct answer stored in the question object, and the score is updated accordingly.If the user skips a question, -1 gets added to the score.
+The user's selected answer is compared with the correct answer stored in the question object, and the score is updated accordingly. If the user selects a wrong option or doesn't select an option within the specified time, -1 gets added to the score.
 
 When the user clicks restart button, the quiz restarts fresh.
 
@@ -38,3 +37,8 @@ When the user clicks restart button, the quiz restarts fresh.
 - Functions
 - Conditional logic
 - Managing application state
+- Math.random()
+- Array manipulation
+- Array destructuring/spread syntax
+- setInterval()
+- clearInterval()
