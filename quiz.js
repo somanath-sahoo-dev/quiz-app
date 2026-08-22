@@ -89,9 +89,24 @@ const quiz = [
     }
 ];
 
-let currentQues = 1;
+// let randIdx = Math.floor(Math.random()*quiz.length); //0 to 14
+// let currentQues = randIdx;
+let currentQues;
 let selectedAns = "";
 let score = 0;
+let usedQues = [];
+
+function randomQues() {
+    let randIdx = Math.floor(Math.random()*quiz.length);
+
+    while(usedQues.includes(randIdx)) {
+        randIdx = Math.floor(Math.random()*quiz.length);
+    }
+
+    currentQues = randIdx;
+    usedQues.push(randIdx);
+    getQues();
+}
 
 function getQues() {
     start.style.display = "none";
@@ -100,11 +115,13 @@ function getQues() {
     for(let option of options) {
         option.style.backgroundColor = "";
     }
-    pQues.innerText = quiz[currentQues-1].question;
-    optA.innerText = quiz[currentQues-1].options[0];
-    optB.innerText = quiz[currentQues-1].options[1];
-    optC.innerText = quiz[currentQues-1].options[2];
-    optD.innerText = quiz[currentQues-1].options[3];
+    pQues.innerText = quiz[currentQues].question;
+    optA.innerText = quiz[currentQues].options[0];
+    optB.innerText = quiz[currentQues].options[1];
+    optC.innerText = quiz[currentQues].options[2];
+    optD.innerText = quiz[currentQues].options[3];
+
+
 }
 
 function checkAns() {
@@ -118,25 +135,28 @@ function checkAns() {
         })
     }
 
-    submit.addEventListener("click", function() {
-        if (selectedAns === "") {
-            alert("Please select an option first.");
-        return;
-        }
-        if(selectedAns === quiz[currentQues-1].answer) {
-        score++;
-        } else {
-        score--;
-        }
-        h3.innerText = `Score ${score}`;
-        currentQues++;
-        endQuiz();
-    })
+    submit.addEventListener("click", submitAns);
 }
 
+function submitAns() {
+    if (selectedAns === "") {
+        alert("Please select an option first.");
+        return;
+    }
+    if(selectedAns === quiz[currentQues].answer) {
+        score++;
+    } else {
+        score--;
+    }
+    h3.innerText = `Score ${score}`;
+    // currentQues++;
+    endQuiz();
+}
+
+
 function endQuiz() {
-    if(currentQues <= quiz.length) {
-        getQues();
+    if(usedQues.length < quiz.length) {
+        randomQues();
     }
      else {
         h1.innerText = "Quiz has finished."
@@ -146,14 +166,17 @@ function endQuiz() {
 }
 
 
-
 checkAns();
-start.addEventListener("click", getQues);
+start.addEventListener("click", randomQues);
 restart.addEventListener("click", function() {
-    currentQues = 1;
+    // currentQues = 1;
+    usedQues = [];
+    h1.innerText = "Quiz App";
     selectedAns = "";
     score = 0;
     h3.innerText = `Score ${score}`;
-    getQues();
+    randomQues();
 })
+
+
 
