@@ -10,6 +10,7 @@ let submit = document.querySelector(".submit");
 let h3 = document.querySelector("h3");
 let h1 = document.querySelector("h1");
 let restart = document.querySelector(".restart");
+let time = document.querySelector("#time");
 
 const quiz = [
     {
@@ -95,6 +96,8 @@ let currentQues;
 let selectedAns = "";
 let score = 0;
 let usedQues = [];
+let timerId;
+let timeLeft;
 
 function randomQues() {
     let randIdx = Math.floor(Math.random()*quiz.length);
@@ -138,6 +141,26 @@ function getQues() {
     optC.innerText = copyOptions[2];
     optD.innerText = copyOptions[3];
 
+    startTimer();
+}
+
+function startTimer() {
+    clearInterval(timerId);
+
+    timeLeft = 15;
+    time.innerText = timeLeft;
+
+    timerId = setInterval(function() {
+        timeLeft--;
+        time.innerText = timeLeft;
+
+        if(timeLeft === 0) {
+            score--;
+            h3.innerText = `Score ${score}`;
+            clearInterval(timerId);
+            endQuiz();
+        }
+    },1000);
 }
 
 function checkAns() {
@@ -165,12 +188,12 @@ function submitAns() {
         score--;
     }
     h3.innerText = `Score ${score}`;
-    // currentQues++;
     endQuiz();
 }
 
 
 function endQuiz() {
+    clearInterval(timerId);
     if(usedQues.length < quiz.length) {
         randomQues();
     }
