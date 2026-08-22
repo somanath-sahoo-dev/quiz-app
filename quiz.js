@@ -108,6 +108,18 @@ function randomQues() {
     getQues();
 }
 
+function shuffledOptions(options) {
+    for(let i = options.length-1;i>0;i--) {
+        let randomIndex = Math.floor(Math.random()*(i+1));
+
+        let temp = options[i];
+        options[i] = options[randomIndex];
+        options[randomIndex] = temp;
+    }
+
+    return options;
+}
+
 function getQues() {
     start.style.display = "none";
     div.style.display = "block";
@@ -115,12 +127,16 @@ function getQues() {
     for(let option of options) {
         option.style.backgroundColor = "";
     }
-    pQues.innerText = quiz[currentQues].question;
-    optA.innerText = quiz[currentQues].options[0];
-    optB.innerText = quiz[currentQues].options[1];
-    optC.innerText = quiz[currentQues].options[2];
-    optD.innerText = quiz[currentQues].options[3];
 
+    let copyOptions = [...quiz[currentQues].options];
+
+    shuffledOptions(copyOptions);
+
+    pQues.innerText = quiz[currentQues].question;
+    optA.innerText = copyOptions[0];
+    optB.innerText = copyOptions[1];
+    optC.innerText = copyOptions[2];
+    optD.innerText = copyOptions[3];
 
 }
 
