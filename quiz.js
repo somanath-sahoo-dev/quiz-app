@@ -7,10 +7,14 @@ let optC = document.querySelector(".C");
 let optD = document.querySelector(".D");
 let options = document.querySelectorAll(".option");
 let submit = document.querySelector(".submit");
-let h3 = document.querySelector("h3");
+let h3 = document.querySelector(".score");
 let h1 = document.querySelector("h1");
 let restart = document.querySelector(".restart");
 let time = document.querySelector("#time");
+let resultBox = document.querySelector(".result-box");
+let finalResult = document.querySelector(".final-result");
+let reviewList = document.querySelector(".review-list");
+let resultRestart = document.querySelector(".result-restart");
 
 const quiz = [
     {
@@ -98,6 +102,8 @@ let score = 0;
 let usedQues = [];
 let timerId;
 let timeLeft;
+let questionAnswered = false;
+let reviewResults = [];
 
 function randomQues() {
     let randIdx = Math.floor(Math.random()*quiz.length);
@@ -126,7 +132,9 @@ function shuffledOptions(options) {
 function getQues() {
     start.style.display = "none";
     div.style.display = "block";
+    resultBox.style.display = "none";
     selectedAns = "";
+    questionAnswered = false;
     for(let option of options) {
         option.style.backgroundColor = "";
     }
@@ -155,8 +163,17 @@ function startTimer() {
         time.innerText = timeLeft;
 
         if(timeLeft === 0) {
+            if (questionAnswered) {
+                return;
+            }
+            questionAnswered = true;
             score--;
             h3.innerText = `Score ${score}`;
+            reviewResults.push({
+                question: quiz[currentQues].question,
+                selected: "No answer",
+                correct: quiz[currentQues].answer
+            });
             clearInterval(timerId);
             endQuiz();
         }
@@ -182,10 +199,19 @@ function submitAns() {
         alert("Please select an option first.");
         return;
     }
+    if (questionAnswered) {
+       return;
+    }
+    questionAnswered = true;
     if(selectedAns === quiz[currentQues].answer) {
-        score++;
+       score++;
     } else {
-        score--;
+       score--;
+       reviewResults.push({
+           question: quiz[currentQues].question,
+           selected: selectedAns,
+           correct: quiz[currentQues].answer
+       });
     }
     h3.innerText = `Score ${score}`;
     endQuiz();
@@ -195,12 +221,30 @@ function submitAns() {
 function endQuiz() {
     clearInterval(timerId);
     if(usedQues.length < quiz.length) {
-        randomQues();
+       randomQues();
     }
-     else {
-        h1.innerText = "Quiz has finished."
-        h3.innerText = `Final Score is ${score}/${quiz.length}`;
-        div.style.display = "none";
+    else {
+       h1.innerText = "Quiz has finished."
+       h3.innerText = "";
+       div.style.display = "none";
+       showResults();
+    }
+}
+
+function showResults() {
+    resultBox.style.display = "block";
+    finalResult.innerText = `Final Score: ${score}/${quiz.length}`;
+    reviewList.innerHTML = "";
+
+    if(reviewResults.length === 0) {
+       reviewList.innerHTML = "<li>Great job! You answered everything correctly.</li>";
+       return;
+    }
+
+    for(let result of reviewResults) {
+       let item = document.createElement("li");
+       item.innerText = `${result.question} | Your answer: ${result.selected} | Correct answer: ${result.correct}`;
+       reviewList.appendChild(item);
     }
 }
 
@@ -213,9 +257,21 @@ restart.addEventListener("click", function() {
     h1.innerText = "Quiz App";
     selectedAns = "";
     score = 0;
+    reviewResults = [];
+    resultBox.style.display = "none";
     h3.innerText = `Score ${score}`;
     randomQues();
 })
 
+resultRestart.addEventListener("click", function() {
+    usedQues = [];
+    h1.innerText = "Quiz App";
+    selectedAns = "";
+    score = 0;
+    reviewResults = [];
+    resultBox.style.display = "none";
+    h3.innerText = `Score ${score}`;
+    randomQues();
+})
 
 

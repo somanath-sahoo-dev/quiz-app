@@ -27,6 +27,20 @@
             width: 100px;
             background-color: #DFFF00;
         }
+        .result-box {
+            border: 2px solid black;
+            border-radius: 10px;
+            width: 700px;
+            margin: 20px auto;
+            padding: 20px;
+            display: none;
+            background-color: #fff;
+            text-align: left;
+        }
+        .result-box h2,
+        .result-box p {
+            text-align: center;
+        }
         #timer #time {
             display: inline-block;
         }
@@ -34,7 +48,7 @@
 </head>
 <body>
     <h1>Quiz App</h1>
-    <h3></h3>    <!--Score Tracking-->
+    <h3 class="score"></h3>    <!--Score Tracking-->
     <button class="start">Start Quiz</button>
     <br>
     <br>
@@ -60,6 +74,13 @@
         <br>
         <br>
         <button class="restart">Restart</button>
+    </div>
+    <div class="result-box">
+        <h2>Quiz Results</h2>
+        <p class="final-result"></p>
+        <h3>Review Wrong Answers</h3>
+        <ul class="review-list"></ul>
+        <button class="result-restart">Restart Quiz</button>
     </div>
     <script src="quiz.js"></script>
 </body>
