@@ -8,6 +8,8 @@ A simple multiple-choice quiz application built with HTML, CSS and JavaScript.
 - Positive/negative scoring
 - Restart functionality
 - Score tracking
+- Final result view after quiz completion
+- Review list for wrong/unanswered questions
 - Random order of questions
 - Randomized order of options to each question
 - 15-second timer for each question
