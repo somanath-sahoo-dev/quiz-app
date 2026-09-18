@@ -15,6 +15,7 @@ let resultBox = document.querySelector(".result-box");
 let finalResult = document.querySelector(".final-result");
 let reviewList = document.querySelector(".review-list");
 let resultRestart = document.querySelector(".result-restart");
+let historyList = document.querySelector(".history-list");
 
 const quiz = [
     {
@@ -107,6 +108,35 @@ let reviewResults = [];
 let quizAnswers = [];
 let quizStartTime;
 let timeTaken;
+
+function getQuizHistory() {
+    const history = JSON.parse(localStorage.getItem("quizHistory")) || [];
+
+    return history;
+}
+
+function displayQuizHistory() {
+    const history = getQuizHistory();
+
+    historyList.innerHTML = "";
+
+    if(history.length === 0) {
+        historyList.innerText = "No quiz attempts yet! Take your first Quiz!";
+        return;
+    }
+
+    for(attempt of history) {
+        let item = document.createElement("div");
+        item.innerText = `
+        Score: ${attempt.score}/${attempt.totalQues}
+        Percentage: ${attempt.percentage.toFixed(1)}%
+        Time Taken: ${attempt.timetaken}s
+        Date: ${new Date(attempt.date).toLocaleString()}
+        `
+
+        historyList.appendChild(item);
+    }
+}
 
 function randomQues() {
     let randIdx = Math.floor(Math.random()*quiz.length);
@@ -310,4 +340,20 @@ resultRestart.addEventListener("click", function() {
     randomQues();
 })
 
+console.log(getQuizHistory());
 
+let history = getQuizHistory();
+
+for(attempt of history) {
+    console.log("score:", attempt.score);
+    console.log("attempt:", attempt.attemptId);
+    console.log("time-taken:", attempt.timetaken);
+    console.log("Percentage:", attempt.percentage);
+    console.log("Date:", attempt.date);
+    // console.log("score:", attempt.score);
+}
+
+console.log(historyList);
+console.log(history);
+
+displayQuizHistory();
