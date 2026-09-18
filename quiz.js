@@ -104,6 +104,9 @@ let timerId;
 let timeLeft;
 let questionAnswered = false;
 let reviewResults = [];
+let quizAnswers = [];
+let quizStartTime;
+let timeTaken;
 
 function randomQues() {
     let randIdx = Math.floor(Math.random()*quiz.length);
@@ -117,7 +120,7 @@ function randomQues() {
     getQues();
 }
 
-function shuffledOptions(options) {
+function shuffledOptions(options) {  //Fisher-Yates Shuffle
     for(let i = options.length-1;i>0;i--) {
         let randomIndex = Math.floor(Math.random()*(i+1));
 
@@ -174,6 +177,11 @@ function startTimer() {
                 selected: "No answer",
                 correct: quiz[currentQues].answer
             });
+            quizAnswers.push({
+                question: quiz[currentQues].question,
+                selected: "No answer",
+                correct: quiz[currentQues].answer
+            });
             clearInterval(timerId);
             endQuiz();
         }
@@ -213,6 +221,11 @@ function submitAns() {
            correct: quiz[currentQues].answer
        });
     }
+    quizAnswers.push({
+        question: quiz[currentQues].question,
+        selected: selectedAns,
+        correct: quiz[currentQues].answer
+    });
     h3.innerText = `Score ${score}`;
     endQuiz();
 }
@@ -227,11 +240,27 @@ function endQuiz() {
        h1.innerText = "Quiz has finished."
        h3.innerText = "";
        div.style.display = "none";
+       timeTaken = (Date.now() - quizStartTime)/1000;
        showResults();
     }
 }
 
 function showResults() {
+    const quizResult = {
+        score: score,
+        totalQues: quiz.length,
+        answers: quizAnswers,
+        attemptId: Date.now(),
+        percentage: (score/quiz.length)*100,
+        date: new Date().toISOString(),
+        timetaken: timeTaken
+    }
+    // console.log(quizResult);
+    
+    const history = JSON.parse(localStorage.getItem("quizHistory")) || [];
+    history.push(quizResult);
+    localStorage.setItem("quizHistory", JSON.stringify(history));
+
     resultBox.style.display = "block";
     finalResult.innerText = `Final Score: ${score}/${quiz.length}`;
     reviewList.innerHTML = "";
@@ -250,7 +279,10 @@ function showResults() {
 
 
 checkAns();
-start.addEventListener("click", randomQues);
+start.addEventListener("click", function() {
+    quizStartTime = Date.now();
+    randomQues();
+});
 restart.addEventListener("click", function() {
     // currentQues = 1;
     usedQues = [];
@@ -258,8 +290,10 @@ restart.addEventListener("click", function() {
     selectedAns = "";
     score = 0;
     reviewResults = [];
+    quizAnswers = [];
     resultBox.style.display = "none";
     h3.innerText = `Score ${score}`;
+    quizStartTime = Date.now();
     randomQues();
 })
 
@@ -269,8 +303,10 @@ resultRestart.addEventListener("click", function() {
     selectedAns = "";
     score = 0;
     reviewResults = [];
+    quizAnswers = [];
     resultBox.style.display = "none";
     h3.innerText = `Score ${score}`;
+    quizStartTime = Date.now();
     randomQues();
 })
 
