@@ -11,11 +11,12 @@ let h3 = document.querySelector(".score");
 let h1 = document.querySelector("h1");
 let restart = document.querySelector(".restart");
 let time = document.querySelector("#time");
-let resultBox = document.querySelector(".result-box");
+let reviewBox = document.querySelector(".review-box");
 let finalResult = document.querySelector(".final-result");
 let reviewList = document.querySelector(".review-list");
 let resultRestart = document.querySelector(".result-restart");
 let historyList = document.querySelector(".history-list");
+let closeReview = document.querySelector(".close-review");
 
 const quiz = [
     {
@@ -95,8 +96,6 @@ const quiz = [
     }
 ];
 
-// let randIdx = Math.floor(Math.random()*quiz.length); //0 to 14
-// let currentQues = randIdx;
 let currentQues;
 let selectedAns = "";
 let score = 0;
@@ -125,8 +124,37 @@ function displayQuizHistory() {
         return;
     }
 
-    for(attempt of history) {
+    for(let attempt of history) {
         let item = document.createElement("div");
+        item.classList.add("history-card");
+        let resBtn = document.createElement("button");
+        resBtn.classList.add("result-button");
+        resBtn.textContent = "View Result";
+        resBtn.dataset.attemptId = attempt.attemptId;
+        resBtn.addEventListener("click", function () {
+            const clickedId = resBtn.dataset.attemptId;
+            const selectedAttempt = history.find(function(attempt) {
+                return attempt.attemptId === Number(clickedId);
+            })
+            reviewBox.style.display = "block";
+            finalResult.innerText = `
+            Score: ${selectedAttempt.score}
+            Total Questions: ${selectedAttempt.totalQues}
+            `;
+            reviewList.innerHTML = "";
+            for(let answer of selectedAttempt.answers) {
+                let newLi = document.createElement("li");
+                newLi.innerText = `
+                Question: ${answer.question}
+                Selected: ${answer.selected}
+                Correct Ans: ${answer.correct}
+                `;
+
+                reviewList.appendChild(newLi);
+            }
+        })
+        
+
         item.innerText = `
         Score: ${attempt.score}/${attempt.totalQues}
         Percentage: ${attempt.percentage.toFixed(1)}%
@@ -135,6 +163,7 @@ function displayQuizHistory() {
         `
 
         historyList.appendChild(item);
+        item.appendChild(resBtn);
     }
 }
 
@@ -165,7 +194,7 @@ function shuffledOptions(options) {  //Fisher-Yates Shuffle
 function getQues() {
     start.style.display = "none";
     div.style.display = "block";
-    resultBox.style.display = "none";
+    reviewBox.style.display = "none";
     selectedAns = "";
     questionAnswered = false;
     for(let option of options) {
@@ -285,26 +314,25 @@ function showResults() {
         date: new Date().toISOString(),
         timetaken: timeTaken
     }
-    // console.log(quizResult);
     
     const history = JSON.parse(localStorage.getItem("quizHistory")) || [];
     history.push(quizResult);
     localStorage.setItem("quizHistory", JSON.stringify(history));
 
-    resultBox.style.display = "block";
-    finalResult.innerText = `Final Score: ${score}/${quiz.length}`;
-    reviewList.innerHTML = "";
+    // resultBox.style.display = "block";
+    // finalResult.innerText = `Final Score: ${score}/${quiz.length}`;
+    // reviewList.innerHTML = "";
 
-    if(reviewResults.length === 0) {
-       reviewList.innerHTML = "<li>Great job! You answered everything correctly.</li>";
-       return;
-    }
+    // if(reviewResults.length === 0) {
+    //    reviewList.innerHTML = "<li>Great job! You answered everything correctly.</li>";
+    //    return;
+    // }
 
-    for(let result of reviewResults) {
-       let item = document.createElement("li");
-       item.innerText = `${result.question} | Your answer: ${result.selected} | Correct answer: ${result.correct}`;
-       reviewList.appendChild(item);
-    }
+    // for(let result of reviewResults) {
+    //    let item = document.createElement("li");
+    //    item.innerText = `${result.question} | Your answer: ${result.selected} | Correct answer: ${result.correct}`;
+    //    reviewList.appendChild(item);
+    // }
 }
 
 
@@ -321,39 +349,14 @@ restart.addEventListener("click", function() {
     score = 0;
     reviewResults = [];
     quizAnswers = [];
-    resultBox.style.display = "none";
+    reviewBox.style.display = "none";
     h3.innerText = `Score ${score}`;
     quizStartTime = Date.now();
     randomQues();
 })
 
-resultRestart.addEventListener("click", function() {
-    usedQues = [];
-    h1.innerText = "Quiz App";
-    selectedAns = "";
-    score = 0;
-    reviewResults = [];
-    quizAnswers = [];
-    resultBox.style.display = "none";
-    h3.innerText = `Score ${score}`;
-    quizStartTime = Date.now();
-    randomQues();
+closeReview.addEventListener("click", function() {
+    reviewBox.style.display = "none";
 })
-
-console.log(getQuizHistory());
-
-let history = getQuizHistory();
-
-for(attempt of history) {
-    console.log("score:", attempt.score);
-    console.log("attempt:", attempt.attemptId);
-    console.log("time-taken:", attempt.timetaken);
-    console.log("Percentage:", attempt.percentage);
-    console.log("Date:", attempt.date);
-    // console.log("score:", attempt.score);
-}
-
-console.log(historyList);
-console.log(history);
 
 displayQuizHistory();

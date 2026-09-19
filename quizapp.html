@@ -27,7 +27,7 @@
             width: 100px;
             background-color: #DFFF00;
         }
-        .result-box {
+        .review-box {
             border: 2px solid black;
             border-radius: 10px;
             width: 700px;
@@ -37,12 +37,32 @@
             background-color: #fff;
             text-align: left;
         }
-        .result-box h2,
-        .result-box p {
+        .review-box h2,
+        .review-box p {
             text-align: center;
         }
         #timer #time {
             display: inline-block;
+        }
+        .history-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+        .history-card {
+            height: 300px;
+            margin-bottom: 15px;
+            margin-left: 10px;
+            padding: 15px;
+            line-height: 1.6;
+            background-color:beige;
+            border: 2px solid black;
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+        }
+        .result-button {
+            margin-top: auto;
         }
     </style>
 </head>
@@ -75,16 +95,19 @@
         <br>
         <button class="restart">Restart</button>
     </div>
-    <div class="result-box">
-        <h2>Quiz Results</h2>
-        <p class="final-result"></p>
-        <h3>Review Wrong Answers</h3>
-        <ul class="review-list"></ul>
-        <button class="result-restart">Restart Quiz</button>
-    </div>
+    
+    <!-- History Box -->
     <div class="history-box">
         <h2>Quiz History</h2>
         <div class="history-list"></div>
+    </div>
+
+    <!-- Result Box -->
+    <div class="review-box">
+        <h2>Review Results</h2>
+        <p class="final-result"></p>
+        <ul class="review-list"></ul>
+        <button class="close-review">Close Review</button>
     </div>
     <script src="quiz.js"></script>
 </body>
