@@ -16,6 +16,10 @@ A browser-based multiple-choice quiz application built with HTML, CSS and JavaSc
 - View results of previous quiz attempts
 - Individual review of saved attempts
 - Close review functionality
+- Single-page application (SPA) navigation
+- Home / Welcome view
+- Quiz view
+- Quiz History view
 
 ## Technologies
 
@@ -69,3 +73,5 @@ The user can select "View Result" for any attempt to see its saved answers.
 - createElement()
 - appendChild()
 - CSS Grid and Flexbox
+- Single-page application (SPA) architecture
+- View switching with JavaScript

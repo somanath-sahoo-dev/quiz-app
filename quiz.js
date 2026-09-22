@@ -17,6 +17,12 @@ let reviewList = document.querySelector(".review-list");
 let resultRestart = document.querySelector(".result-restart");
 let historyList = document.querySelector(".history-list");
 let closeReview = document.querySelector(".close-review");
+let home = document.querySelector(".home");
+let dashboard = document.querySelector(".dashboard");
+let quizHist = document.querySelector(".quiz-history");
+let quizView = document.querySelector(".quiz");
+let views = document.querySelectorAll(".view");
+let navBtns = document.querySelectorAll(".nav");
 
 const quiz = [
     {
@@ -107,6 +113,27 @@ let reviewResults = [];
 let quizAnswers = [];
 let quizStartTime;
 let timeTaken;
+
+for(let view of views) {
+        view.style.display = "none";
+}
+home.style.display = "block";
+
+
+function showView() {
+    for(let btn of navBtns) {
+        btn.addEventListener("click", function(event) {
+                for(let view of views) {
+                    view.style.display = "none";
+                }
+            const btnId = event.target.id;
+            const targetDiv = document.querySelector("." + btnId);
+            if(targetDiv) {
+                targetDiv.style.display = "block";
+            }
+        });
+    };
+}
 
 function getQuizHistory() {
     const history = JSON.parse(localStorage.getItem("quizHistory")) || [];
@@ -360,3 +387,4 @@ closeReview.addEventListener("click", function() {
 })
 
 displayQuizHistory();
+showView();

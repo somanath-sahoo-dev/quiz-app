@@ -4,111 +4,70 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz App</title>
-    <style>
-        body {
-            text-align: center;
-            background-color: lightblue;
-        }
-        button {
-            border-radius: 7px;
-        }
-        .question-box {
-            border: 2px solid black;
-            border-radius: 10px;
-            height: 500px;
-            width: 700px;
-            display: none;
-            margin: 0 auto;
-        }
-        .submit {
-            background-color:#8888E7;
-        }
-        .restart {
-            width: 100px;
-            background-color: #DFFF00;
-        }
-        .review-box {
-            border: 2px solid black;
-            border-radius: 10px;
-            width: 700px;
-            margin: 20px auto;
-            padding: 20px;
-            display: none;
-            background-color: #fff;
-            text-align: left;
-        }
-        .review-box h2,
-        .review-box p {
-            text-align: center;
-        }
-        #timer #time {
-            display: inline-block;
-        }
-        .history-list {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-        }
-        .history-card {
-            height: 300px;
-            margin-bottom: 15px;
-            margin-left: 10px;
-            padding: 15px;
-            line-height: 1.6;
-            background-color:beige;
-            border: 2px solid black;
-            border-radius: 6px;
-            display: flex;
-            flex-direction: column;
-        }
-        .result-button {
-            margin-top: auto;
-        }
-    </style>
+    <link href="quizstyle.css" rel="stylesheet">
 </head>
 <body>
-    <h1>Quiz App</h1>
-    <h3 class="score"></h3>    <!--Score Tracking-->
-    <button class="start">Start Quiz</button>
-    <br>
-    <br>
-    <h3 id="timer">Timer: <p id="time"></p></h3>
-    <br>
-    <br>
-    <div class="question-box">
-        <p class="ques"></p>
-        <button class="A option"></button>
-        <br>
-        <br>
-        <button class="B option"></button>
-        <br>
-        <br>
-        <button class="C option"></button> 
-        <br>
-        <br>       
-        <button class="D option"></button>
-        <br>
-        <br>
-        <br>
-        <button type="submit" class="submit">Submit</button>
-        <br>
-        <br>
-        <button class="restart">Restart</button>
+    <div class="navigation">
+        <nav>
+            <button class="h nav" id="home">Home</button>
+            <button class="q nav" id="quiz">Take a Quiz</button>
+            <button class="qh nav" id="quiz-history">Quiz History</button>
+            <button class="dash nav" id="dashboard">Dashboard</button>
+        </nav>
     </div>
-    
-    <!-- History Box -->
-    <div class="history-box">
-        <h2>Quiz History</h2>
-        <div class="history-list"></div>
+    <div class="home view">
+        <h1>Welcome to Developer Sim!</h1>
+        <h2>Test your skills.</h2>
+        <h3>Grow as a developer.</h3>
+        <h3>Learn to handle real world problems.</h3>
+    </div>
+    <div class="dashboard view"></div>
+    <div class="quiz view">
+        <h1>Quiz App</h1>
+        <h3 class="score"></h3>    <!--Score Tracking-->
+        <button class="start">Start Quiz</button>
+        <br>
+        <br>
+        <h3 id="timer">Timer: <p id="time"></p></h3>
+        <br>
+        <br>
+        <div class="question-box">
+            <p class="ques"></p>
+            <button class="A option"></button>
+            <br>
+            <br>
+            <button class="B option"></button>
+            <br>
+            <br>
+            <button class="C option"></button> 
+            <br>
+            <br>       
+            <button class="D option"></button>
+            <br>
+            <br>
+            <br>
+            <button type="submit" class="submit">Submit</button>
+            <br>
+            <br>
+            <button class="restart">Restart</button>
+        </div>
+    </div>
+    <div class="quiz-history view">
+        <!-- History Box -->
+        <div class="history-box">
+            <h2>Quiz History</h2>
+            <div class="history-list"></div>
+        </div>
+
+        <!-- Result Box -->
+        <div class="review-box">
+            <h2>Review Results</h2>
+            <p class="final-result"></p>
+            <ul class="review-list"></ul>
+            <button class="close-review">Close Review</button>
+        </div>
     </div>
 
-    <!-- Result Box -->
-    <div class="review-box">
-        <h2>Review Results</h2>
-        <p class="final-result"></p>
-        <ul class="review-list"></ul>
-        <button class="close-review">Close Review</button>
-    </div>
     <script src="quiz.js"></script>
 </body>
 </html>
