@@ -20,12 +20,16 @@ A browser-based multiple-choice quiz application built with HTML, CSS and JavaSc
 - Home / Welcome view
 - Quiz view
 - Quiz History view
+- Developer performance dashboard
+- Score analysis visualization
+- Time analysis visualization
 
 ## Technologies
 
 - HTML
 - CSS
 - JavaScript
+- Chart.js
 
 ## How It Works
 
@@ -75,3 +79,10 @@ The user can select "View Result" for any attempt to see its saved answers.
 - CSS Grid and Flexbox
 - Single-page application (SPA) architecture
 - View switching with JavaScript
+- **Data aggregation:** Learned how to process historical quiz data to calculate overall statistics such as total attempts, questions answered, correct, wrong, skipped, accuracy, and overall performance.
+- **Derived statistics:** Learned how to calculate meaningful metrics from existing data instead of storing every metric separately.
+- **Chart.js:** Learned how to integrate an external JavaScript library using a CDN and create data visualizations with `new Chart()`.
+- **Canvas:** Learned the purpose of the `<canvas>` element and how Chart.js uses it to render charts.
+- **Data visualization:** Learned how to represent quiz performance using different chart types, including doughnut and line charts.
+- **Array methods for data processing:** Used methods such as `forEach()` and `map()` to process historical quiz data and generate chart data dynamically.
+- **Dashboard architecture:** Learned how to create a data flow from `localStorage → quiz history → statistics → dashboard UI/charts`.

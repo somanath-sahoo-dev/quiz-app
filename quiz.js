@@ -23,6 +23,18 @@ let quizHist = document.querySelector(".quiz-history");
 let quizView = document.querySelector(".quiz");
 let views = document.querySelectorAll(".view");
 let navBtns = document.querySelectorAll(".nav");
+let totalAttempts = document.querySelector("#totalAttempts");
+let totalQuesAns = document.querySelector("#totalQuesAns")
+let correctAns = document.querySelector("#correctAns")
+let overallAccuracy = document.querySelector("#overallAccuracy")
+let overallPercent = document.querySelector("#overallPercent")
+let v1 = document.querySelector("#v1");
+let v2 = document.querySelector("#v2");
+let v3 = document.querySelector("#v3");
+let v4 = document.querySelector("#v4");
+let v5 = document.querySelector("#v5");
+let scoreCanvas = document.querySelector("#scoreChart");
+let timeCanvas = document.querySelector("#timeChart");
 
 const quiz = [
     {
@@ -134,6 +146,87 @@ function showView() {
         });
     };
 }
+
+function getDashboardStats() {
+    const history = getQuizHistory();
+
+    const totalAttempts = history.length;
+    const totalQues = (history.length)*15;
+    let totalScore = 0;
+    let totalQuesAns = 0;
+    let correctAns = 0;
+    let timeTaken = [];
+    history.forEach(element => {
+        for(let i=0;i<element.answers.length;i++) {
+            if(element.answers[i].selected !== "No answer") {
+                totalQuesAns++;
+            }
+            if(element.answers[i].selected === element.answers[i].correct) {
+                correctAns++;
+            }
+        }
+        totalScore += element.score;
+        timeTaken.push(element.timetaken);
+    });
+
+    const overallAccuracy = (correctAns/totalQuesAns) * 100;
+    const overallPercent = (totalScore/totalQues) * 100;
+    const skippedAns = totalQues - totalQuesAns;
+    const wrongAns = totalQuesAns - correctAns;
+
+    return  {
+        totalAttempts,
+        totalQuesAns,
+        correctAns,
+        overallAccuracy,
+        overallPercent,
+        skippedAns,
+        wrongAns,
+        timeTaken
+    } 
+}
+
+function updateDashboard() {
+    const stats = getDashboardStats();
+
+    v1.innerText = stats.totalAttempts;
+    v2.innerText = stats.totalQuesAns;
+    v3.innerText = stats.correctAns;
+    v4.innerText = stats.overallAccuracy.toFixed(1)+"%";
+    v5.innerText = stats.overallPercent.toFixed(1)+"%";
+
+    new Chart (scoreCanvas, {
+        type: "doughnut",
+
+        data: {
+            labels: ["Correct", "Wrong", "Skipped"],
+            datasets: [
+                {
+                data: [stats.correctAns, stats.wrongAns, stats.skippedAns],
+                }
+            ]
+        }
+    });
+
+        const attempts = stats.timeTaken.map((_, index) => `Attempt ${index + 1}`);
+
+    new Chart(timeCanvas, {
+        type: "line",
+
+        data: {
+            labels: attempts,
+
+            datasets: [
+                {   
+                    label: "Time Taken (seconds)",
+                    data: stats.timeTaken
+                }
+            ]
+        }
+    });
+}
+
+
 
 function getQuizHistory() {
     const history = JSON.parse(localStorage.getItem("quizHistory")) || [];
@@ -346,20 +439,6 @@ function showResults() {
     history.push(quizResult);
     localStorage.setItem("quizHistory", JSON.stringify(history));
 
-    // resultBox.style.display = "block";
-    // finalResult.innerText = `Final Score: ${score}/${quiz.length}`;
-    // reviewList.innerHTML = "";
-
-    // if(reviewResults.length === 0) {
-    //    reviewList.innerHTML = "<li>Great job! You answered everything correctly.</li>";
-    //    return;
-    // }
-
-    // for(let result of reviewResults) {
-    //    let item = document.createElement("li");
-    //    item.innerText = `${result.question} | Your answer: ${result.selected} | Correct answer: ${result.correct}`;
-    //    reviewList.appendChild(item);
-    // }
 }
 
 
@@ -388,3 +467,4 @@ closeReview.addEventListener("click", function() {
 
 displayQuizHistory();
 showView();
+updateDashboard();

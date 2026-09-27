@@ -295,3 +295,149 @@ button.option[style*="background-color: green"] {
 .home h2 { animation-delay: 0.3s; }
 .home h3:nth-of-type(1) { animation-delay: 0.5s; }
 .home h3:nth-of-type(2) { animation-delay: 0.7s; }
+
+/* --- Dashboard Overview Cards --- */
+.overview {
+    display: grid;
+    /* Creates a responsive horizontal layout that wraps on smaller screens */
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.overview h2 {
+    /* Forces the heading to span all columns and sit cleanly above the cards */
+    grid-column: 1 / -1; 
+    text-align: left;
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+    font-size: 1.8rem;
+}
+
+/* Targets the individual stat cards (totalAttempts, totalQuesAns, etc.) */
+.overview > div {
+    background-color: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s, border-color 0.2s;
+    /* FIX: Prevents long text from blowing out the grid track widths */
+    min-width: 0; 
+}
+
+.overview > div:hover {
+    transform: translateY(-3px);
+    border-color: #58a6ff;
+}
+
+/* Styles the numerical "Value" container inside the cards */
+.overview > div div {
+    /* FIX: Uses clamp to seamlessly scale the font size down on smaller screens */
+    font-size: clamp(1.5rem, 3vw, 2.2rem); 
+    font-weight: 700;
+    color: #58a6ff;
+    font-family: 'Consolas', 'Courier New', monospace;
+    margin-bottom: 0.25rem;
+    line-height: 1.2;
+    /* FIX: Forces wrapping if a value gets exceptionally long */
+    overflow-wrap: break-word;
+}
+
+/* Styles the descriptive label (h3) inside the cards */
+.overview > div h3 {
+    font-size: 0.85rem;
+    color: #8b949e;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+    /* FIX: Forces long unbroken words to wrap naturally */
+    overflow-wrap: break-word;
+    hyphens: auto;
+}
+
+/* --- Analysis Dashboard Sections (Score & Time) --- */
+.Score-Analysis, .Time-Analysis {
+    background-color: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    padding: 2rem;
+    margin-top: 3rem;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    text-align: left;
+    border-top: 3px solid #30363d;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.Score-Analysis:hover, .Time-Analysis:hover {
+    border-top-color: #58a6ff;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+}
+
+.Score-Analysis h2, .Time-Analysis h2 {
+    color: #ffffff;
+    font-size: 1.8rem;
+    margin-bottom: 0.25rem;
+}
+
+.Score-Analysis h4, .Time-Analysis h4 {
+    color: #8b949e;
+    font-weight: 400;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+    margin-bottom: 2rem;
+}
+
+/* Constrains the Donut chart (Score) to keep it circular */
+#score-chart {
+    position: relative;
+    width: 100%;
+    max-width: 350px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Allows the Line chart (Time) to stretch wider to display trend data better */
+#time-chart {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+}
+
+
+/* --- Professional Dashboard Polish --- */
+
+/* 1. Staggered Entrance Animations */
+.overview > div, .Score-Analysis, .Time-Analysis {
+    opacity: 0;
+    animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.overview > div:nth-child(2) { animation-delay: 0.1s; }
+.overview > div:nth-child(3) { animation-delay: 0.2s; }
+.overview > div:nth-child(4) { animation-delay: 0.3s; }
+.overview > div:nth-child(5) { animation-delay: 0.4s; }
+.overview > div:nth-child(6) { animation-delay: 0.5s; }
+.Score-Analysis { animation-delay: 0.6s; }
+.Time-Analysis { animation-delay: 0.7s; } /* Fades in right after the score chart */
+
+/* 2. Gradient Text for Primary Data */
+.overview > div div {
+    background: linear-gradient(135deg, #58a6ff, #a371f7);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+}
+
+/* 3. Elevated Hover States */
+.overview > div:hover {
+    transform: translateY(-5px);
+    border-color: #58a6ff;
+    box-shadow: 0 12px 28px rgba(88, 166, 255, 0.12);
+}
