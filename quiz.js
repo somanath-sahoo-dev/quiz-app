@@ -36,7 +36,7 @@ let v5 = document.querySelector("#v5");
 let scoreCanvas = document.querySelector("#scoreChart");
 let timeCanvas = document.querySelector("#timeChart");
 
-const quiz = [
+let quiz = [
     {
         question: "Which keyword is used to declare a variable that can be reassigned?",
         options: ["const","let","static","define"],
@@ -465,6 +465,26 @@ closeReview.addEventListener("click", function() {
     reviewBox.style.display = "none";
 })
 
+async function getQuestions() {
+    const response = await fetch("https://opentdb.com/api.php?amount=5");
+    const data = await response.json();
+
+    // const questions = data.results.map(formatQuestion);
+
+    data.results.forEach(question => {
+        const apiQuestion = {
+            question: question.question,
+            options: [
+                question.correct_answer,
+                ...question.incorrect_answers,
+            ],
+            answer: question.correct_answer,
+        }
+        quiz.push(apiQuestion);
+    })
+}
+
+getQuestions();
 displayQuizHistory();
 showView();
 updateDashboard();
